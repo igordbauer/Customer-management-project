@@ -7,7 +7,12 @@ export default async function handler(req, res) {
     case "GET": {
       try {
         const products = await Product.find({});
-        res.status(200).json({ success: true, data: products });
+        res
+          .status(200)
+          .json({
+            success: true,
+            data: products.map((e) => e.toObject({ getters: true })),
+          });
       } catch (error) {
         res.status(400).json({ success: false });
       }
@@ -16,7 +21,10 @@ export default async function handler(req, res) {
     case "POST": {
       try {
         const product = await Product.create(req.body);
-        res.status(200).json({ success: true, data: product });
+        res.status(200).json({
+          success: true,
+          data: product,
+        });
       } catch (error) {
         res.status(400).json({ success: false });
       }

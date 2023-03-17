@@ -1,11 +1,4 @@
 export const createProduct = async (formsState) => {
-  const headers = new Headers();
-  headers.append("Access-Control-Allow-Origin", "*");
-  headers.append(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  headers.append("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   try {
     await fetch("/api/products", {
       method: "POST",
@@ -18,9 +11,21 @@ export const createProduct = async (formsState) => {
       }),
     });
   } catch (response) {
-    console.log(response);
     if (!response.ok) {
       throw new Error("Erro na requisição");
+    }
+    return response.json();
+  }
+};
+export const getProducts = async () => {
+  let response;
+  try {
+    response = await fetch("/api/products");
+    const data = response.json();
+    return data;
+  } catch (e) {
+    if (!response.ok) {
+      throw new Error("Erro ao buscar lista de produtos");
     }
     return response.json();
   }

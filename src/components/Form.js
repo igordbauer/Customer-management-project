@@ -11,14 +11,16 @@ import useForm from "./shared/hooks/useForm";
 import CustomInput from "./shared/FormComponents/CustomInput";
 import { createProduct } from "../controller/product-controller";
 const Form = (props) => {
-  const [formsState, inputHandler] = useForm(props.initialInputValues, false);
+  const initialInputValues = Object.fromEntries(
+    props.inputs.map((e) => [e.inputId, { value: "", isValid: false }])
+  );
+  const [formsState, inputHandler] = useForm(initialInputValues, false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     document.location.reload(true);
   };
-
   const submitHandler = async (e) => {
     e.preventDefault();
     handleOpen();
@@ -34,7 +36,6 @@ const Form = (props) => {
       <Paper
         elevation={10}
         sx={{
-          p: 2,
           mb: 2,
           minWidth: "275px",
           width: 1,

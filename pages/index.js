@@ -1,5 +1,7 @@
 import React from "react";
-import { Box, Paper, CardHeader, CardContent } from "@mui/material";
+import { Box } from "@mui/material";
+import ProductList from "../src/components/Product";
+import useProduct from "../src/hooks/useProduct";
 import Form from "../src/components/Form";
 import {
   VALIDATOR_REQUIRE,
@@ -21,21 +23,18 @@ export default function Index() {
       label: "Preço do Produto",
       placeholder: "Please enter your name",
       validators: [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()],
-      errorText: "Por favor entre um preço válido para o produto",
+      errorText:
+        "Por favor entre um preço válido para o produto (usar ponto em vez de vírgula)",
       // startAdornment: <InputAdornment position="start">$</InputAdornment>,
     },
   ];
-  const initialInputState = Object.fromEntries(
-    inputs.map((e) => [e.inputId, { value: "", isValid: false }])
-  );
+
+  const { isLoading, products } = useProduct();
 
   return (
     <Box sx={{ m: 2 }}>
-      <Form
-        formTitle="Criar Produto"
-        inputs={inputs}
-        initialInputValues={initialInputState}
-      />
+      <Form formTitle="Criar Produto" inputs={inputs} />
+      {!isLoading && <ProductList {...{ products }} />}
     </Box>
   );
 }
