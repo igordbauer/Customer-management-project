@@ -30,11 +30,23 @@ export default function Index() {
   ];
 
   const { isLoading, products } = useProduct();
-
+  const initialInputValues = Object.fromEntries(
+    inputs.map((e) => [e.inputId, { value: "", isValid: false }])
+  );
   return (
     <Box sx={{ m: 2 }}>
-      <Form formTitle="Criar Produto" inputs={inputs} />
-      {!isLoading && <ProductList {...{ products }} />}
+      <Form
+        formTitle="Criar Produto"
+        initialInputValues={initialInputValues}
+        inputs={inputs}
+      />
+      {!isLoading && (
+        <ProductList
+          {...{ products }}
+          inputs={inputs}
+          initialInputValues={initialInputValues}
+        />
+      )}
     </Box>
   );
 }

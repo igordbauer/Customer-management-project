@@ -16,7 +16,7 @@ const data = {
     value: "",
     isValid: false,
   },
-  email: {
+  price: {
     value: "",
     isValid: false,
   },
@@ -28,22 +28,23 @@ const UpdateDialog = ({
   onConfirm,
   cancelButtonText,
   id,
-  users,
+  inputs,
+  array,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formsState, inputHandler, setFormData] = useForm(data, true);
-  const identifiedUser = users.find((e) => e._id === id);
+  const identifiedElement = array.find((e) => e._id === id);
   useEffect(() => {
     setIsLoading(true);
-    if (identifiedUser && open) {
+    if (identifiedElement && open) {
       setFormData(
         {
           name: {
-            value: identifiedUser.name,
+            value: identifiedElement.name,
             isValid: true,
           },
-          email: {
-            value: identifiedUser.email,
+          price: {
+            value: identifiedElement.price,
             isValid: true,
           },
         },
@@ -51,7 +52,7 @@ const UpdateDialog = ({
       );
       setIsLoading(false);
     }
-  }, [id, users, identifiedUser, open, setFormData]);
+  }, [id, array, identifiedElement, open, setFormData]);
 
   const onCloseDialog = useCallback((e) => {
     e.preventDefault();
@@ -72,7 +73,7 @@ const UpdateDialog = ({
           <form onSubmit={onConfirmDialog}>
             <>
               <CardHeader title="Update User" />
-              <CardContent>
+              {/* <CardContent>
                 <CustomInput
                   inputId="name"
                   type="text"
@@ -97,6 +98,30 @@ const UpdateDialog = ({
                   errorText="Please enter a valid email"
                   onChangeInput={inputHandler}
                 />
+              </CardContent> */}
+              <CardContent>
+                {inputs.map((e) => (
+                  <CustomInput
+                    size="large"
+                    sx={{ width: 1, my: 0.5 }}
+                    onChangeInput={inputHandler}
+                    initialValue={formsState.inputs[e.inputId]?.value || ""}
+                    initialValidity={
+                      formsState.inputs[e.inputId]?.isValid || false
+                    }
+                    key={e.inputId}
+                    inputId={e.inputId}
+                    type={e.type}
+                    label={e.label}
+                    placeholder={e.placeholder}
+                    validators={e.validators}
+                    errorText={e.errorText}
+                    InputProps={{
+                      startAdornment: e.startAdornment,
+                    }}
+                    {...e}
+                  />
+                ))}
               </CardContent>
               <CardActions
                 sx={{

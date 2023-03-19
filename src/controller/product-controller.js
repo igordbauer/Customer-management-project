@@ -30,3 +30,24 @@ export const getProducts = async () => {
     return response.json();
   }
 };
+export const deleteProduct = async (id) => {
+  let response;
+  try {
+    response = await fetch("/api/products", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    });
+    const data = response.json();
+    return data;
+  } catch (e) {
+    if (!response.ok) {
+      throw new Error("Erro ao buscar lista de produtos");
+    }
+    return response.json();
+  }
+};

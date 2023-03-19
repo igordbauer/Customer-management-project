@@ -11,10 +11,7 @@ import useForm from "./shared/hooks/useForm";
 import CustomInput from "./shared/FormComponents/CustomInput";
 import { createProduct } from "../controller/product-controller";
 const Form = (props) => {
-  const initialInputValues = Object.fromEntries(
-    props.inputs.map((e) => [e.inputId, { value: "", isValid: false }])
-  );
-  const [formsState, inputHandler] = useForm(initialInputValues, false);
+  const [formsState, inputHandler] = useForm(props.initialInputValues, false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -23,9 +20,9 @@ const Form = (props) => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    handleOpen();
     try {
       await createProduct(formsState);
+      handleOpen();
     } catch (e) {
       throw new Error("Erro ao criar produto");
     }
