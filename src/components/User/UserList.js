@@ -11,6 +11,7 @@ import {
 } from "../../controller/user-controller";
 import CustomDialog from "../shared/UI/CustomDialog";
 import UpdateDialog from "../shared/UI/UpdateDialog";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -62,7 +63,9 @@ const UserList = () => {
         }}
       >
         <CardHeader title="Users" />
-        {!isLoading && (
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
           <Box>
             {users.length === 0 ? (
               <Typography align="center">No users</Typography>

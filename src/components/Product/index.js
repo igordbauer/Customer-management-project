@@ -14,7 +14,10 @@ import UpdateRoundedIcon from "@mui/icons-material/UpdateRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import CustomDialog from "../shared/UI/CustomDialog";
 import UpdateDialog from "../shared/UI/UpdateDialog";
-import { deleteProduct } from "../../controller/product-controller";
+import {
+  deleteProduct,
+  updateProduct,
+} from "../../controller/product-controller";
 
 const ProductList = ({ products, initialInputValues, inputs }) => {
   const [openDelete, setOpenDelete] = useState(null);
@@ -30,7 +33,6 @@ const ProductList = ({ products, initialInputValues, inputs }) => {
   const handleCloseDelete = () => setOpenDelete(null);
   const handleCloseUpdate = () => setOpenUpdate(null);
   const handleDeleteUser = async () => {
-    console.log(openDelete);
     await deleteProduct(openDelete);
     handleCloseDelete();
     document.location.reload(true);
@@ -39,7 +41,7 @@ const ProductList = ({ products, initialInputValues, inputs }) => {
   const handleUpdateUser = async (obj) => {
     const { name, price } = obj.inputs;
     const newObj = { name: name.value, price: price.value };
-    // await updateUser(id, newObj);
+    await updateProduct(id, newObj);
 
     handleCloseUpdate();
     document.location.reload(true);
@@ -71,7 +73,9 @@ const ProductList = ({ products, initialInputValues, inputs }) => {
                     <TableCell component="th" scope="row">
                       {product.name}
                     </TableCell>
-                    <TableCell align="right">R$ {product.price}</TableCell>
+                    <TableCell align="right">
+                      R$ {product.price.toFixed(2)}
+                    </TableCell>
                     <TableCell width={0.2} align="right">
                       <IconButton color="primary">
                         <UpdateRoundedIcon

@@ -7,6 +7,7 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_NUMBER,
 } from "../src/components/shared/util/validators";
+import LoadingSpinner from "../src/components/Loading/LoadingSpinner";
 
 export default function Index() {
   const inputs = [
@@ -14,14 +15,14 @@ export default function Index() {
       inputId: "name",
       type: "text",
       label: "Nome do Produto",
-      placeholder: "Please enter your name",
+      placeholder: "Por favor coloque um nome para o produto",
       validators: [VALIDATOR_REQUIRE()],
       errorText: "Por favor entre um nome válido para o produto",
     },
     {
       inputId: "price",
       label: "Preço do Produto",
-      placeholder: "Please enter your name",
+      placeholder: "Por favor coloque um valor para o produto",
       validators: [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()],
       errorText:
         "Por favor entre um preço válido para o produto (usar ponto em vez de vírgula)",
@@ -40,12 +41,12 @@ export default function Index() {
         initialInputValues={initialInputValues}
         inputs={inputs}
       />
-      {!isLoading && (
-        <ProductList
-          {...{ products }}
-          inputs={inputs}
-          initialInputValues={initialInputValues}
-        />
+      {isLoading ? (
+        <Box sx={{ mt: 9 }}>
+          <LoadingSpinner />
+        </Box>
+      ) : (
+        <ProductList {...{ products, inputs, initialInputValues }} />
       )}
     </Box>
   );

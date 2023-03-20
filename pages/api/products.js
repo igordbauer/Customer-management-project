@@ -15,6 +15,22 @@ export default async function handler(req, res) {
       }
       break;
     }
+    case "PUT": {
+      let product;
+      const newObj = req.body.updatedObj;
+      const { id } = req.body;
+
+      try {
+        product = await Product.findById(id);
+        product.name = newObj.name;
+        product.price = newObj.price;
+        product.save();
+        res.status(200).json({ product });
+      } catch (e) {
+        throw new Error("Could not update the product");
+      }
+      break;
+    }
     case "POST": {
       try {
         const product = await Product.create(req.body);
