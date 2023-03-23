@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
 import theme from "../src/theme";
 import CustomDrawer from "../src/components/Navbar/CustomDrawer";
@@ -21,7 +21,7 @@ export default function MyApp({ Component, pageProps }) {
         <ProductProvider>
           <CustomAppbar {...{ handleOpen, desktop }} />
           {!desktop && <CustomDrawer {...{ handleClose, openDrawer }} />}
-          <Container maxWidth="md" sx={{ mt: 10 }}>
+          <Container maxWidth="lg" sx={{ mt: 10 }}>
             <Component {...pageProps} />
           </Container>
         </ProductProvider>

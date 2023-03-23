@@ -34,6 +34,9 @@ export const theme = createTheme({
     secondary: {
       main: "#d32f2f",
     },
+    black: {
+      main: "#000",
+    },
     error: {
       main: red.A400,
     },
