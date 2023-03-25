@@ -37,6 +37,9 @@ export const theme = createTheme({
     black: {
       main: "#000",
     },
+    orange: {
+      main: "#F58E21",
+    },
     error: {
       main: red.A400,
     },

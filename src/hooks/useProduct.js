@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ProductContext } from "../context/product-context";
 const useProduct = () => {
   const { isLoading, products } = useContext(ProductContext);
-  return { isLoading, products };
+  const cartProducts = products.map((e) => ({ ...e, quantity: 0 }));
+  return { isLoading, products: cartProducts };
 };
 export default useProduct;
