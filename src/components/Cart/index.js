@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback, useMemo } from "react";
+import React, { useReducer, useState, useCallback, useMemo } from "react";
 import {
   Box,
   Paper,
@@ -71,10 +71,13 @@ const cartReducer = (state, action) => {
 
 const Cart = () => {
   const { products } = useProduct();
-  const [cartState, dispatch] = useReducer(cartReducer, {
-    cartItems: [],
-  });
-  console.log(cartState);
+  const [cartState, dispatch] = useReducer(cartReducer, { cartItems: [] });
+  const [filter, setFilter] = useState("");
+
+  const filterHandler = (event) => {
+    setFilter(event.target.value);
+  };
+
   const cartHandler = useCallback((obj) => {
     dispatch({
       type: "ADD",
@@ -83,7 +86,6 @@ const Cart = () => {
   }, []);
 
   const changeCartItemQuantity = (event, obj) => {
-    console.log(event.target.value, obj);
     dispatch({
       type: "CHANGE_QUANTITY",
       obj: obj,
@@ -98,25 +100,42 @@ const Cart = () => {
       }, 0),
     [cartState]
   );
+  const filteredProducts =
+    filter === "" ? products : products.filter((e) => e.name.includes(filter));
 
   return (
     <Box sx={{ m: 2, display: "flex", width: 1, maxHeight: "700px" }}>
-      <Paper elevation={5} sx={{ mx: 3, p: 1, width: 0.6 }}>
-        <TableContainer sx={{ maxHeight: "700px" }}>
+      <Paper
+        elevation={5}
+        sx={{ mx: 3, p: 1, width: 0.6, border: "1px solid primary" }}
+      >
+        <TextField
+          sx={{
+            m: 2,
+            width: 0.9,
+          }}
+          label="Procurar produto"
+          placeholder="Procurar"
+          onChange={filterHandler}
+        />
+        <TableContainer sx={{ maxHeight: "600px" }}>
           <Table stickyHeader sx={{ width: 1 }}>
             <TableHead>
               <TableRow>
-                <TableCell>Produto</TableCell>
-                <TableCell align="right">Preço</TableCell>
+                <TableCell sx={{ fontSize: "20px" }}>Produto</TableCell>
+                <TableCell sx={{ fontSize: "20px" }} align="right">
+                  Preço
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.map((e) => (
+              {filteredProducts.map((e) => (
                 <TableRow
                   hover
                   key={e.id}
                   onClick={() => cartHandler(e)}
                   sx={{
+                    cursor: "pointer",
                     "&:last-child td, &:last-child th": { border: 0 },
                     width: 1,
                   }}
