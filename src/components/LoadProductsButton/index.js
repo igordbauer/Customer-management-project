@@ -7,7 +7,7 @@ const LoadProductsButton = () => {
 
   return (
     <IconButton onClick={loadProducts} sx={{ height: "44px" }}>
-      <RefreshIcon />
+      <RefreshIcon color="primary" />
     </IconButton>
   );
 };

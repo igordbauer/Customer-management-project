@@ -12,10 +12,7 @@ export const ProductProvider = ({ children }) => {
     setProducts(products.data);
     setIsloading(false);
   };
-  useEffect(() => {
-    console.log("render");
-    load();
-  }, []);
+  useEffect(() => load(), []);
 
   return (
     <ProductContext.Provider

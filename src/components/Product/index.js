@@ -18,6 +18,7 @@ import {
   deleteProduct,
   updateProduct,
 } from "../../controller/product-controller";
+import LoadProductsButton from "../LoadProductsButton";
 
 const ProductList = ({ products, initialInputValues, inputs }) => {
   const [openDelete, setOpenDelete] = useState(null);
@@ -56,7 +57,9 @@ const ProductList = ({ products, initialInputValues, inputs }) => {
                 <TableCell>Nome do Produto</TableCell>
                 <TableCell align="right">Preço</TableCell>
                 <TableCell align="right"></TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="right">
+                  <LoadProductsButton />
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
