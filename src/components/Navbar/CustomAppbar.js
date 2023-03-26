@@ -23,12 +23,12 @@ const CustomAppbar = ({ handleOpen, desktop }) => {
         >
           {desktop && (
             <>
-              <IconButton LinkComponent={Link} href="/notifications">
+              <IconButton LinkComponent={Link} href="/product">
                 <Badge color="error" badgeContent={4}>
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              <IconButton LinkComponent={Link} href="/settings">
+              <IconButton LinkComponent={Link} href="/">
                 <SettingsIcon />
               </IconButton>
             </>

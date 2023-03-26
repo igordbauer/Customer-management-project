@@ -35,7 +35,7 @@ const ProductList = ({ products, initialInputValues, inputs }) => {
   const handleDeleteUser = async () => {
     await deleteProduct(openDelete);
     handleCloseDelete();
-    document.location.reload(true);
+    // document.location.reload(true);
   };
 
   const handleUpdateUser = async (obj) => {
@@ -44,7 +44,7 @@ const ProductList = ({ products, initialInputValues, inputs }) => {
     await updateProduct(id, newObj);
 
     handleCloseUpdate();
-    document.location.reload(true);
+    // document.location.reload(true);
   };
   return (
     <>

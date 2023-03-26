@@ -6,18 +6,21 @@ export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsloading] = useState(true);
 
+  const load = async () => {
+    setIsloading(true);
+    const products = await getProducts();
+    setProducts(products.data);
+    setIsloading(false);
+  };
   useEffect(() => {
-    const load = async () => {
-      setIsloading(true);
-      const products = await getProducts();
-      setProducts(products.data);
-      setIsloading(false);
-    };
+    console.log("render");
     load();
   }, []);
 
   return (
-    <ProductContext.Provider value={{ products, isLoading }}>
+    <ProductContext.Provider
+      value={{ products, isLoading, loadProducts: load }}
+    >
       {children}
     </ProductContext.Provider>
   );

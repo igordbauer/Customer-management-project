@@ -16,7 +16,7 @@ const Form = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    document.location.reload(true);
+    // document.location.reload(true);
   };
   const submitHandler = async (e) => {
     e.preventDefault();

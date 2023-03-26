@@ -1,78 +1,15 @@
-import React, { useReducer, useState, useCallback, useMemo } from "react";
-import {
-  Box,
-  Paper,
-  Button,
-  CardHeader,
-  Typography,
-  TextField,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from "@mui/material";
+import React, { useState, useCallback, useMemo } from "react";
+import { Box, Paper, Typography, TextField } from "@mui/material";
+import useCart from "../../hooks/useCart";
 import useProduct from "../../hooks/useProduct";
-
-const cartReducer = (state, action) => {
-  switch (action.type) {
-    case "ADD": {
-      const { obj } = action;
-      if (state.cartItems.find((e) => e.id === action.obj.id)) {
-        const newArray = state.cartItems.map((e) => {
-          if (e.id === obj.id) {
-            return {
-              ...e,
-              quantity: parseInt(e.quantity) + 1,
-            };
-          } else {
-            return e;
-          }
-        });
-        return {
-          cartItems: newArray,
-        };
-      } else {
-        const newObj = {
-          ...obj,
-          quantity: 1,
-        };
-        return {
-          cartItems: [...state.cartItems, newObj],
-        };
-      }
-    }
-    case "CHANGE_QUANTITY": {
-      const { obj, quantity } = action;
-      let newArray;
-      if (parseInt(quantity) === 0) {
-        newArray = state.cartItems.filter((e) => e.id !== obj.id);
-      } else {
-        newArray = state.cartItems.map((e) => {
-          if (e.id === obj.id) {
-            return {
-              ...e,
-              quantity: parseInt(quantity),
-            };
-          } else {
-            return e;
-          }
-        });
-      }
-      return {
-        cartItems: newArray,
-      };
-    }
-    default:
-      return state;
-  }
-};
+import ProductSaleList from "./ProductSaleList";
+import ProductCartList from "./ProductCartList";
+import LoadProductsButton from "../LoadProductsButton";
 
 const Cart = () => {
   const { products } = useProduct();
-  const [cartState, dispatch] = useReducer(cartReducer, { cartItems: [] });
   const [filter, setFilter] = useState("");
+  const { dispatch, cartState } = useCart();
 
   const filterHandler = (event) => {
     setFilter(event.target.value);
@@ -101,7 +38,9 @@ const Cart = () => {
     [cartState]
   );
   const filteredProducts =
-    filter === "" ? products : products.filter((e) => e.name.includes(filter));
+    filter === ""
+      ? products
+      : products.filter((e) => e.name.toLowerCase().includes(filter));
 
   return (
     <Box sx={{ m: 2, display: "flex", width: 1, maxHeight: "700px" }}>
@@ -109,46 +48,22 @@ const Cart = () => {
         elevation={5}
         sx={{ mx: 3, p: 1, width: 0.6, border: "1px solid primary" }}
       >
-        <TextField
-          sx={{
-            m: 2,
-            width: 0.9,
-          }}
-          label="Procurar produto"
-          placeholder="Procurar"
-          onChange={filterHandler}
+        <Box sx={{ display: "flex", width: 1, alignItems: "center" }}>
+          <TextField
+            sx={{
+              m: 2,
+              width: 0.85,
+            }}
+            label="Procurar produto"
+            placeholder="Procurar"
+            onChange={filterHandler}
+          />
+          <LoadProductsButton />
+        </Box>
+        <ProductSaleList
+          filteredProducts={filteredProducts}
+          cartHandler={cartHandler}
         />
-        <TableContainer sx={{ maxHeight: "600px" }}>
-          <Table stickyHeader sx={{ width: 1 }}>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ fontSize: "20px" }}>Produto</TableCell>
-                <TableCell sx={{ fontSize: "20px" }} align="right">
-                  Preço
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredProducts.map((e) => (
-                <TableRow
-                  hover
-                  key={e.id}
-                  onClick={() => cartHandler(e)}
-                  sx={{
-                    cursor: "pointer",
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    width: 1,
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    {e.name}
-                  </TableCell>
-                  <TableCell align="right">R$ {e.price.toFixed(2)}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
       </Paper>
       <Box sx={{ width: 0.5 }}>
         <Paper elevation={5} sx={{ mx: 3, mb: 2 }}>
@@ -163,40 +78,7 @@ const Cart = () => {
           </Typography>
         </Paper>
         <Paper elevation={10} sx={{ mx: 3, minHeight: "500px" }}>
-          <TableContainer sx={{ maxHeight: "500px" }}>
-            <Table stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Produto</TableCell>
-                  <TableCell>Preço</TableCell>
-                  <TableCell align="right">Quantidade</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {cartState.cartItems.map((e) => (
-                  <TableRow
-                    key={e.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {e.name}
-                    </TableCell>
-                    <TableCell align="right">R$ {e.price.toFixed(2)}</TableCell>
-                    <TableCell align="right">
-                      <TextField
-                        sx={{ width: 0.5, ml: 2 }}
-                        id="filled-number"
-                        label="Qtd"
-                        value={e.quantity || "0"}
-                        type="number"
-                        onChange={(event) => changeCartItemQuantity(event, e)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <ProductCartList changeCartItemQuantity={changeCartItemQuantity} />
         </Paper>
         <Paper
           elevation={10}
