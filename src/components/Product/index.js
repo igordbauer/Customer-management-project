@@ -19,8 +19,10 @@ import {
   updateProduct,
 } from "../../controller/product-controller";
 import LoadProductsButton from "../LoadProductsButton";
+import useProduct from "../../hooks/useProduct";
 
 const ProductList = ({ products, initialInputValues, inputs }) => {
+  const { loadProducts } = useProduct();
   const [openDelete, setOpenDelete] = useState(null);
   const [openUpdate, setOpenUpdate] = useState(null);
   const [id, setId] = useState(null);
@@ -36,7 +38,7 @@ const ProductList = ({ products, initialInputValues, inputs }) => {
   const handleDeleteUser = async () => {
     await deleteProduct(openDelete);
     handleCloseDelete();
-    // document.location.reload(true);
+    loadProducts();
   };
 
   const handleUpdateUser = async (obj) => {
@@ -45,7 +47,7 @@ const ProductList = ({ products, initialInputValues, inputs }) => {
     await updateProduct(id, newObj);
 
     handleCloseUpdate();
-    // document.location.reload(true);
+    loadProducts();
   };
   return (
     <>

@@ -10,13 +10,16 @@ import {
 import useForm from "./shared/hooks/useForm";
 import CustomInput from "./shared/FormComponents/CustomInput";
 import { createProduct } from "../controller/product-controller";
+import useProduct from "../hooks/useProduct";
+
 const Form = (props) => {
+  const { loadProducts } = useProduct();
   const [formsState, inputHandler] = useForm(props.initialInputValues, false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    // document.location.reload(true);
+    loadProducts();
   };
   const submitHandler = async (e) => {
     e.preventDefault();

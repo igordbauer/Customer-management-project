@@ -1,5 +1,13 @@
 import React from "react";
-import { AppBar, Box, Badge, Avatar, Toolbar, IconButton } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Badge,
+  Avatar,
+  Toolbar,
+  IconButton,
+  Button,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -23,18 +31,33 @@ const CustomAppbar = ({ handleOpen, desktop }) => {
         >
           {desktop && (
             <>
-              <IconButton LinkComponent={Link} href="/product">
+              {/* <IconButton LinkComponent={Link} href="/product">
                 <Badge color="error" badgeContent={4}>
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
-              <IconButton LinkComponent={Link} href="/">
+              </IconButton> */}
+              <Button
+                LinkComponent={Link}
+                href="/product"
+                variant="contained"
+                color="secondary"
+              >
+                Criar produtos
+              </Button>
+              <Button
+                LinkComponent={Link}
+                href="/"
+                variant="contained"
+                color="secondary"
+              >
+                Venda
+              </Button>
+              {/* <IconButton LinkComponent={Link} href="/">
                 <SettingsIcon />
-              </IconButton>
+              </IconButton> */}
             </>
           )}
         </Box>
-        <Avatar />
       </Toolbar>
     </AppBar>
   );
