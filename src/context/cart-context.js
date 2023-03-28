@@ -4,6 +4,11 @@ export const CartContext = createContext();
 
 const cartReducer = (state, action) => {
   switch (action.type) {
+    case "CLEAR": {
+      return {
+        cartItems: [],
+      };
+    }
     case "ADD": {
       const { obj } = action;
       if (state.cartItems.find((e) => e.id === action.obj.id)) {
