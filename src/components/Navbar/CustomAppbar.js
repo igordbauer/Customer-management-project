@@ -38,6 +38,14 @@ const CustomAppbar = ({ handleOpen, desktop }) => {
               </IconButton> */}
               <Button
                 LinkComponent={Link}
+                href="/debits"
+                variant="contained"
+                color="secondary"
+              >
+                Devedores
+              </Button>
+              <Button
+                LinkComponent={Link}
                 href="/product"
                 variant="contained"
                 color="secondary"
